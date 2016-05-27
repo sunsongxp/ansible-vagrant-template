@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+    - name: Copy etc files
+      file:
+        src=files/{{ item }}
+        path=/etc/{{ item }}
+      with_items:
+        - apt/source.list
+
+    - name: Upgrade the system
+      apt:
+        update_cache=yes
+        upgrade=yes
