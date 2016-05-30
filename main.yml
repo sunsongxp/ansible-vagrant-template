@@ -18,3 +18,9 @@
       apt:
         update_cache=yes
         upgrade=yes
+
+- hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+    - role: common

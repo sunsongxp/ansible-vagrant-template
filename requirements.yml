@@ -1,0 +1,4 @@
+---
+- src: https://github.com/sunsong/ansible-role-common.git
+  name: common
+  version: master
