@@ -1,12 +1,18 @@
 ---
 - hosts: all
+  become: yes
+  become_method: sudo
   tasks:
     - name: Copy etc files
-      file:
-        src=files/{{ item }}
-        path=/etc/{{ item }}
+      copy:
+        src=files/etc/{{ item.name }}
+        dest=/etc/{{ item.name }}
+        owner=root
+        group=root
+        mode={{ item.mode }}
       with_items:
-        - apt/source.list
+        - name: apt/sources.list
+          mode: u=rw,g=r,o=r
 
     - name: Upgrade the system
       apt:
