@@ -3,6 +3,20 @@
   become: yes
   become_method: sudo
   tasks:
+    - name: Check if swapfile exists
+      stat:
+        path=/swapfile
+        get_checksum=no
+      register: swapfile
+
+    - name: Enable swapfile with length 2G
+      command: "{{ item }}"
+      with_items:
+        - fallocate -l 2G /swapfile
+        - mkswap /swapfile
+        - swapon /swapfile
+      when: swapfile.stat.exists == False
+
     - name: Copy etc files
       copy:
         src=files/etc/{{ item.name }}
