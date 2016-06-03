@@ -21,3 +21,14 @@ vagrant up --provision
 vagrant halt
 vagrant snapshot delete latest
 vagrant snapshot save latest
+
+
+read -p "Do you want to start the VM? [Yy]" -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    exit 0
+fi
+
+# Start VM
+vagrant up
