@@ -1,0 +1,18 @@
+---
+- name: restart ssh
+  debug: msg="checking config first"
+  changed_when: True
+  notify:
+    - check ssh configuration
+    - restart ssh - after config check
+
+- name: check ssh configuration
+  shell: /usr/sbin/sshd -t
+  register: result
+  changed_when: "result.rc != 0"
+  always_run: yes
+
+- name: restart ssh - after config check
+  service:
+    name={{ ssh_service }}
+    state=restarted

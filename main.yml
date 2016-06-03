@@ -34,10 +34,33 @@
         - name: apt/sources.list
           mode: u=rw,g=r,o=r
 
+    - name: Add public key allow access, github.com/sunsongxp.keys
+      authorized_key:
+        user=root
+        key=https://github.com/sunsongxp.keys
+
+    - name: Allow ssh to root
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        line='UseDNS no'
+        line='PermitRootLogin yes'
+        regexp='^PermitRootLogin'
+        state=present
+      notify: restart ssh
+
     - name: Upgrade the system
       apt:
         update_cache=yes
         upgrade=yes
+
+    - name: Install extra packages
+      apt:
+        update_cache=no
+        name={{ item }}
+      with_items:
+        - python-dev
+        - python-pip
+        - build-essential
 
 - hosts: all
   become: yes
