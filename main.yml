@@ -58,9 +58,19 @@
         update_cache=no
         name={{ item }}
       with_items:
+        - ipython
         - python-dev
         - python-pip
         - build-essential
+        - ncdu
+        - silversearcher-ag
+        - git
+        - htop
+        - iotop
+        - sysstat
+        - iptraf
+        - iftop
+        - nmon
 
 - hosts: all
   become: yes
