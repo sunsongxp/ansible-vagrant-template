@@ -19,9 +19,11 @@
       when: swapfile.stat.exists == False
 
     - name: Make sure swapfile is included in /etc/fstab
-      lineinfile:
-        dest=/etc/fstab
-        line="/swapfile none swap sw 0 0"
+      mount:
+        name=swap
+        src=/swapfile
+        fstype=swap
+        state=present
 
     - name: Copy etc files
       copy:
