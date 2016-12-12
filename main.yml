@@ -3,28 +3,6 @@
   become: yes
   become_method: sudo
   tasks:
-    - name: Check if swapfile exists
-      stat:
-        path=/swapfile
-        get_checksum=False
-        get_md5=False
-      register: swapfile
-
-    - name: Enable swapfile with length 2G
-      command: "{{ item }}"
-      with_items:
-        - fallocate -l 2G /swapfile
-        - mkswap /swapfile
-        - swapon /swapfile
-      when: swapfile.stat.exists == False
-
-    - name: Make sure swapfile is included in /etc/fstab
-      mount:
-        name=swap
-        src=/swapfile
-        fstype=swap
-        state=present
-
     - name: Copy etc files
       copy:
         src=files/etc/{{ item.name }}
@@ -79,3 +57,6 @@
   become_method: sudo
   roles:
     - role: common
+      enable_swapfile: yes
+      swap_size: 4G
+      swap_file: /swap_file
