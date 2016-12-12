@@ -22,7 +22,6 @@
     - name: Allow ssh to root
       lineinfile:
         dest=/etc/ssh/sshd_config
-        line='UseDNS no'
         line='PermitRootLogin yes'
         regexp='^PermitRootLogin'
         state=present
